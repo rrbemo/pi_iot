@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+  <head>
+    <title>RPi Web Server - Data Page</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <h1>10 most recent CPU temps</h1>
+    {% for row in the_data %}
+    <span>{{ row['datetime'] }}</span>
+    <div class="row">
+      <div class="col-md-2">
+      {% if row['cpu_temp'] <= 50 %}
+        <span class="label label-info">CPU: {{ row['cpu_temp']|round(2) }} degrees</span>
+      {% elif row['cpu_temp'] > 60 %}
+        <span class="label label-danger">CPU: {{ row['cpu_temp']|round(2) }} degrees</span>
+      {% else %}
+        <span class="label label-warning">CPU: {{ row['cpu_temp']|round(2) }} degrees</span>
+      {% endif %}
+      {% if row['temp_1'] is not number %}
+        <span class="label label-info">Van (D): {{ row['temp_1'] }}</span>
+      {% else %}
+        {% if row['temp_1'] <= 55 %}
+          <span class="label label-info">
+        {% elif row['temp_1'] > 72 %}
+          <span class="label label-danger">
+        {% else %}
+          <span class="label label-success">
+        {% endif %}
+        Van (D): {{ row['temp_1']|round(2) }} F</span>
+      {% endif %}
+      {% if row['temp_2'] is not number %}
+        <span class="label label-info">Van (A): {{ row['temp_2'] }}</span>
+      {% else %}
+        {% if row['temp_2'] <= 55 %}
+          <span class="label label-info">
+        {% elif row['temp_2'] > 72 %}
+          <span class="label label-danger">
+        {% else %}
+          <span class="label label-success">
+        {% endif %}
+        Van (A): {{ row['temp_2']|round(2) }} F</span>
+      {% endif %}
+      </div>
+    </div>
+    </br>
+    {% endfor %}
+  </body>
+</html>
